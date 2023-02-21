@@ -1,38 +1,63 @@
 package com.projecthub.controller;
 
 import com.projecthub.entity.User;
+import com.projecthub.service.UserService;
 import jakarta.annotation.PostConstruct;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-@RequestMapping("/user")
+@RestController
+@RequestMapping("api/v1/users")
 public class UserController {
 
-    List<User> users;
+    private final UserService userService;
 
-    @PostConstruct
-    public void loadData() {
-        User user1 = new User("Mark", "mark@gmail.com");
-        User user2 = new User("Bohdan", "bohdan@gmail.com");
-        User user3 = new User("Maks", "maks@gmail.com");
+    public UserController(UserService userService) {
+        this.userService = userService;
 
         users = new ArrayList<>();
 
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
-
+        users.add(new User(1L, "Mark", "mark@gmail.com", "pas1"));
+        users.add(new User(2L, "Bohdan", "bohdan@gmail.com", "pas2"));
+        users.add(new User(3L, "Maks", "maks@gmail.com", "pas3"));
     }
 
-    @GetMapping("/list")
-    public String showNames(Model theModel) {
-        theModel.addAttribute("users", users);
-        return "list-users";
+    List<User> users;
+
+    @GetMapping()
+    public List<User> getAllUsers() {
+        return users;
+    }
+
+    @GetMapping("{userId}")
+    public User getUser(@PathVariable long userId) {
+        return userService.getUserById(userId);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        userService.addUser(user);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user) {
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("{userId}")
+    public void deleteUser(@PathVariable Long userId) {
+        userService.deleteUserById(userId);
+    }
+
+    @PutMapping("{userId}")
+    public void updateUser(@PathVariable Long userId, User user) {
+        userService.updateUser(userId,user);
     }
 }
