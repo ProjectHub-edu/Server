@@ -19,19 +19,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-
-        users = new ArrayList<>();
-
-        users.add(new User(1L, "Mark", "mark@gmail.com", "pas1"));
-        users.add(new User(2L, "Bohdan", "bohdan@gmail.com", "pas2"));
-        users.add(new User(3L, "Maks", "maks@gmail.com", "pas3"));
     }
-
-    List<User> users;
 
     @GetMapping()
     public List<User> getAllUsers() {
-        return users;
+        return userService.getAllUsers();
     }
 
     @GetMapping("{userId}")

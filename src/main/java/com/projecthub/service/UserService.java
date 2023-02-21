@@ -23,6 +23,7 @@ public class UserService {
     public User getUserByEmail(String email){
         return userRepository.selectUserByEmail(email).orElseThrow();
     }
+
     public void addUser(User user){
         if(userRepository.existsUserWithEmail(user.getEmail())){
             throw new RuntimeException("email already taken");

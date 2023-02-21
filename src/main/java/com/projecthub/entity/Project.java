@@ -40,5 +40,67 @@ public class Project {
         this.deadLine = deadLine;
     }
 
+    public long getId() {
+        return id;
+    }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getProjectImgUrl() {
+        return projectImgUrl;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getDeadLine() {
+        return deadLine;
+    }
+
+    public List<User> getOwners() {
+        return owners;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public List<String> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setProjectImgUrl(String projectImgUrl) {
+        this.projectImgUrl = projectImgUrl;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setDeadLine(Date deadLine) {
+        this.deadLine = deadLine;
+    }
 }

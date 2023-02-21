@@ -57,5 +57,7 @@ public class UserListRepository implements UserRepository {
     }
 
     @Override
-    public void updateUser(User user) {}
+    public void updateUser(User user) {
+        users.set(users.indexOf(selectUserById(user.getId()).orElseThrow()),user);
+    }
 }
