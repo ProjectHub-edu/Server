@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@Repository("List")
+@Repository("UserList")
 public class UserListRepository implements UserRepository {
 
     private static final List<User> users;

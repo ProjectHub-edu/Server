@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository("List")
+@Repository("ProjectList")
 public class ProjectListRepository implements ProjectRepository {
 
     private static final List<Project> projects;

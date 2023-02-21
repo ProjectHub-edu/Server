@@ -1,9 +1,7 @@
 package com.projecthub.controller;
 
 import com.projecthub.entity.Project;
-import com.projecthub.entity.User;
 import com.projecthub.service.ProjectService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
