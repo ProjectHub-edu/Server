@@ -1,6 +1,7 @@
 package com.projecthub.dao;
 
 import com.projecthub.entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,19 +12,18 @@ import java.util.Optional;
 @Repository("UserList")
 public class UserListRepository implements UserRepository {
 
-    private static final List<User> users;
+    static final List<User> users;
+
+    private static Long id;
 
     static {
         users = new ArrayList<>();
+        id = 0L;
 
-        users.add(new User(1L, "Mark", "mark@gmail.com", "pas1"));
-        users.add(new User(2L, "Bohdan", "bohdan@gmail.com", "pas2"));
-        users.add(new User(3L, "Maks", "maks@gmail.com", "pas3"));
-    }
-
-    @Override
-    public List<User> selectAllUsers() {
-        return users;
+        users.add(User.builder().id(id++).username("Mark").email("makr@gmail.com").password(new BCryptPasswordEncoder().encode("pas1")).build());
+        users.add(User.builder().id(id++).username("Bohdan").email("bohdan@gmail.com").password(new BCryptPasswordEncoder().encode("pas2")).build());
+        users.add(User.builder().id(id++).username("Maks").email("maks@gmail.com").password(new BCryptPasswordEncoder().encode("pas3")).build());
+        users.add(User.builder().id(id++).username("Tom").email("tom@gmail.com").password(new BCryptPasswordEncoder().encode("pas4")).build());
     }
 
     @Override
@@ -38,6 +38,7 @@ public class UserListRepository implements UserRepository {
 
     @Override
     public void insertUser(User user) {
+        user.setId(id++);
         users.add(user);
     }
 

@@ -11,8 +11,12 @@ public interface ProjectRepository {
     List<Project> selectAllProjects();
     Optional<Project> selectProjectById(Long id);
     void insertProject(Project project);
-
     boolean existsProjectWithId(Long id);
     void deleteProjectById(Long id);
     void updateProject(Project project);
+
+    List<Project> getProjectsByOwnerId(Long id);
+
+    List<Project> getProjectsByMemberId(Long id);
+
 }

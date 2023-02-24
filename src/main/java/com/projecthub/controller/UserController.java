@@ -1,46 +1,39 @@
 package com.projecthub.controller;
 
+import com.projecthub.dto.AuthResponseDto;
+import com.projecthub.dto.LoginDto;
+import com.projecthub.dto.RegisterDto;
+import com.projecthub.dto.UserResponseDto;
 import com.projecthub.entity.User;
-import com.projecthub.service.UserService;
-import jakarta.annotation.PostConstruct;
+import com.projecthub.service.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
     @GetMapping("{userId}")
-    public User getUser(@PathVariable long userId) {
+    public UserResponseDto getUser(@PathVariable Long userId) {
         return userService.getUserById(userId);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        userService.addUser(user);
-
-        return ResponseEntity.ok().build();
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
+        return ResponseEntity.ok(userService.login(loginDto));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
-        return ResponseEntity.badRequest().build();
+    @PostMapping("/new")
+    public ResponseEntity<AuthResponseDto> registerUser(@RequestBody RegisterDto registerDto) {
+        return ResponseEntity.ok(userService.register(registerDto));
     }
 
     @DeleteMapping("{userId}")

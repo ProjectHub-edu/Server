@@ -1,11 +1,13 @@
 package com.projecthub.dao;
 
 import com.projecthub.entity.Project;
+import com.projecthub.entity.Role;
 import com.projecthub.entity.User;
 import com.projecthub.enumeration.Status;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository("ProjectList")
 public class ProjectListRepository implements ProjectRepository {
@@ -13,11 +15,24 @@ public class ProjectListRepository implements ProjectRepository {
     private static final List<Project> projects;
 
     static {
+        List<User> users = UserListRepository.users;
+
         projects = new ArrayList<>();
 
-        projects.add(new Project(1L,"project1", "project1", Status.IN_PROGRESS, "", new Date(),new Date()));
-        projects.add(new Project(2L,"project2", "project2", Status.NOT_STARTED, "", new Date(),new Date()));
-        projects.add(new Project(3L,"project3", "project3", Status.ENDED, "", new Date(),new Date()));
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role(1L, "frontend dev", "React" ,users.get(0)));
+        roles.add(new Role(2L, "backend dev","Spring" ,users.get(1)));
+        roles.add(new Role(3L, "android dev", "Kotlin" ,users.get(2)));
+
+        Role owner1 = new Role(1L,"Team lead","Manage teams", users.get(3));
+        Role owner2= new Role(1L,"Solution architect","Application design", users.get(0));
+
+        projects.add(Project.builder().id(1L).title("project1").description("project1").status(Status.IN_PROGRESS)
+                .startDate(new Date()).deadLine(new Date())
+                .owner(owner1).roles(roles).build());
+        projects.add(Project.builder().id(2L).title("project2").description("project2").status(Status.IN_PROGRESS)
+                .startDate(new Date()).deadLine(new Date())
+                .owner(owner2).roles(roles).build());
     }
 
     @Override
@@ -28,6 +43,15 @@ public class ProjectListRepository implements ProjectRepository {
     @Override
     public Optional<Project> selectProjectById(Long id) {
         return projects.stream().filter(project -> Objects.equals(project.getId(), id)).findAny();
+    }
+
+    public List<Project> getProjectsByOwnerId(Long id){
+        return selectAllProjects().stream().filter(project -> Objects.equals(project.getOwner().getUser().getId(), id)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Project> getProjectsByMemberId(Long id) {
+        return selectAllProjects().stream().filter(project -> project.getRoles().stream().map(role -> role.getUser().getId()).anyMatch(userId -> Objects.equals(userId, id))).collect(Collectors.toList());
     }
 
     @Override

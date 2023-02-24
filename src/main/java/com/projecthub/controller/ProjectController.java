@@ -1,7 +1,10 @@
 package com.projecthub.controller;
 
+import com.projecthub.dto.ProjectAddDto;
+import com.projecthub.dto.ProjectDto;
+import com.projecthub.dto.ProjectProfileDto;
 import com.projecthub.entity.Project;
-import com.projecthub.service.ProjectService;
+import com.projecthub.service.impl.ProjectServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,20 +13,26 @@ import java.util.List;
 @RequestMapping("api/v1/projects")
 public class ProjectController {
 
-    private final ProjectService projectService;
+    private final ProjectServiceImpl projectService;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectServiceImpl projectService) {
         this.projectService = projectService;
     }
 
     @GetMapping()
-    public List<Project> getAllProjects() {
+    public List<ProjectDto> getAllProjects() {
         return projectService.getAllProjects();
     }
 
     @GetMapping("{projectId}")
-    public Project getProject(@PathVariable long projectId) {
+    public ProjectProfileDto getProject(@PathVariable Long projectId) {
         return projectService.getProjectById(projectId);
+    }
+
+
+    @DeleteMapping("/new")
+    public void addProject(@RequestBody ProjectAddDto projectAddDto) {
+        projectService.addProject(projectAddDto);
     }
 
     @DeleteMapping("{projectId}")
@@ -35,4 +44,5 @@ public class ProjectController {
     public void updateProject(@PathVariable Long projectId, Project project) {
         projectService.updateProject(projectId,project);
     }
+
 }
