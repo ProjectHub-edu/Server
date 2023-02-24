@@ -20,12 +20,12 @@ public class ProjectListRepository implements ProjectRepository {
         projects = new ArrayList<>();
 
         List<Role> roles = new ArrayList<>();
-        roles.add(new Role(1L, "frontend dev", "React" ,users.get(0)));
-        roles.add(new Role(2L, "backend dev","Spring" ,users.get(1)));
-        roles.add(new Role(3L, "android dev", "Kotlin" ,users.get(2)));
+        roles.add(Role.builder().id(1L).title("frontend dev").title("React").user(users.get(0)).build());
+        roles.add(Role.builder().id(2L).title("backend dev").title("Spring").user(users.get(1)).build());
+        roles.add(Role.builder().id(3L).title("android dev").title("Kotlin").user(users.get(2)).build());
 
-        Role owner1 = new Role(1L,"Team lead","Manage teams", users.get(3));
-        Role owner2= new Role(1L,"Solution architect","Application design", users.get(0));
+        Role owner1 = Role.builder().id(1L).title("Team lead").title("Manage teams").user(users.get(3)).build();
+        Role owner2 = Role.builder().id(2L).title("Solution architect").title("Application design").user(users.get(0)).build();
 
         projects.add(Project.builder().id(1L).title("project1").description("project1").status(Status.IN_PROGRESS)
                 .startDate(new Date()).deadLine(new Date())
