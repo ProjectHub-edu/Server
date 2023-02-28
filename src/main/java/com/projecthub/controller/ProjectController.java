@@ -29,8 +29,7 @@ public class ProjectController {
         return projectService.getProjectById(projectId);
     }
 
-
-    @DeleteMapping("/new")
+    @PostMapping("/new")
     public void addProject(@RequestBody ProjectAddDto projectAddDto) {
         projectService.addProject(projectAddDto);
     }
