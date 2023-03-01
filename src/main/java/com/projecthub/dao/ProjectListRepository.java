@@ -14,6 +14,8 @@ public class ProjectListRepository implements ProjectRepository {
 
     private static final List<Project> projects;
 
+    private static Long id;
+
     static {
         List<User> users = UserListRepository.users;
 
@@ -27,10 +29,12 @@ public class ProjectListRepository implements ProjectRepository {
         Role owner1 = Role.builder().id(1L).title("Team lead").title("Manage teams").user(users.get(3)).build();
         Role owner2 = Role.builder().id(2L).title("Solution architect").title("Application design").user(users.get(0)).build();
 
-        projects.add(Project.builder().id(1L).title("project1").description("project1").status(Status.IN_PROGRESS)
+        id = 0L;
+
+        projects.add(Project.builder().id(id++).title("project1").description("project1").status(Status.IN_PROGRESS)
                 .startDate(new Date()).deadLine(new Date())
                 .owner(owner1).roles(roles).build());
-        projects.add(Project.builder().id(2L).title("project2").description("project2").status(Status.IN_PROGRESS)
+        projects.add(Project.builder().id(id++).title("project2").description("project2").status(Status.IN_PROGRESS)
                 .startDate(new Date()).deadLine(new Date())
                 .owner(owner2).roles(roles).build());
     }
@@ -56,6 +60,7 @@ public class ProjectListRepository implements ProjectRepository {
 
     @Override
     public void insertProject(Project project) {
+        project.setId(id++);
         projects.add(project);
     }
 

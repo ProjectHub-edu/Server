@@ -6,6 +6,7 @@ import com.projecthub.dto.RegisterDto;
 import com.projecthub.dto.UserResponseDto;
 import com.projecthub.entity.User;
 import com.projecthub.service.impl.UserServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +38,15 @@ public class UserController {
     }
 
     @DeleteMapping("{userId}")
-    public void deleteUser(@PathVariable Long userId) {
+    public ResponseEntity deleteUser(@PathVariable Long userId) {
         userService.deleteUserById(userId);
+        return new ResponseEntity("User deleted successfully", HttpStatus.OK);
+
     }
 
     @PutMapping("{userId}")
-    public void updateUser(@PathVariable Long userId, User user) {
+    public ResponseEntity updateUser(@PathVariable Long userId, User user) {
         userService.updateUser(userId,user);
+        return new ResponseEntity("User updated successfully", HttpStatus.OK);
     }
 }

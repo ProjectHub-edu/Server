@@ -5,6 +5,9 @@ import com.projecthub.dto.ProjectDto;
 import com.projecthub.dto.ProjectProfileDto;
 import com.projecthub.entity.Project;
 import com.projecthub.service.impl.ProjectServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +33,9 @@ public class ProjectController {
     }
 
     @PostMapping("/new")
-    public void addProject(@RequestBody ProjectAddDto projectAddDto) {
+    public ResponseEntity addProject(@RequestBody ProjectAddDto projectAddDto) {
         projectService.addProject(projectAddDto);
+        return new ResponseEntity("Project added successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("{projectId}")
@@ -40,8 +44,10 @@ public class ProjectController {
     }
 
     @PutMapping("{projectId}")
-    public void updateProject(@PathVariable Long projectId, Project project) {
+    public ResponseEntity updateProject(@PathVariable Long projectId, Project project) {
         projectService.updateProject(projectId,project);
+        return new ResponseEntity("Project updated successfully", HttpStatus.OK);
+
     }
 
 }

@@ -10,6 +10,7 @@ import com.projecthub.service.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,7 +84,7 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectProfileDto mapProjectToProjectProfileDto(Project project) {
         ProjectProfileDto projectProfileDto = new ProjectProfileDto();
 
-        List<RoleDto> roleDtos = project.getRoles().stream().map(this::mapRoleToDto).collect(Collectors.toList());
+        List<RoleDto> roleDtos = project.getRoles() == null ? new ArrayList<>() : project.getRoles().stream().map(this::mapRoleToDto).collect(Collectors.toList());
         roleDtos.add(mapRoleToDto(project.getOwner()));
 
         projectProfileDto.setId(project.getId());
